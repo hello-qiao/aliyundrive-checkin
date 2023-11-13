@@ -1,6 +1,4 @@
-import pytz
 import requests
-import datetime
 from aliyundrive_info import AliyundriveInfo
 from tenacity import retry, stop_after_attempt, wait_random, RetryError
 
@@ -27,7 +25,7 @@ class Aliyundrive:
             return info
 
         try:
-            flag, user_name, access_token, message = self._get_access_token(token)
+            flag, user_name, access_token, refresh_token, message = self._get_access_token(token)
             if not flag:
                 return handle_error(f'get_access_token error: {message}')
 
@@ -48,6 +46,7 @@ class Aliyundrive:
             info.signin_count = signin_count
             info.reward_notice = reward_notice
             info.task_notice = task_notice
+            info.refresh_token = refresh_token
 
             return info
 
@@ -78,7 +77,8 @@ class Aliyundrive:
         nick_name, user_name = data['nick_name'], data['user_name']
         name = nick_name if nick_name else user_name
         access_token = data['access_token']
-        return True, name, access_token, ''
+        refresh_token = data['refresh_token']
+        return True, name, access_token, refresh_token, ''
 
     """
     执行签到操作
@@ -158,10 +158,7 @@ class Aliyundrive:
         success = data['success']
         signInInfos = data['result']['signInInfos']
 
-        shanghai_timezone = pytz.timezone('Asia/Shanghai')
-        current_datetime = datetime.datetime.now(shanghai_timezone)
-        day = current_datetime.day
-
+        day = data['result']['signInCount']
         rewards = filter(lambda info: int(info.get('day', 0)) == day, signInInfos)
         
         award_notice = ''
