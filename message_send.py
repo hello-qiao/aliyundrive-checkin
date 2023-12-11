@@ -137,7 +137,7 @@ class MessageSend:
             "desp": content,
         }
         # https://push.wudixiaolong.xyz/message/push?pushkey=PDU1TtzDLwF2Y7sCPSWGOYT3rp4fwbNKl6lu6&text=%E8%A6%81%E5%8F%91%E9%80%81%E7%9A%84%E5%86%85%E5%AE%B9
-        pushdeer = PushDeer(server="https://push.wudixiaolong.xyz", pushkey="PDU1TtzDLwF2Y7sCPSWGOYT3rp4fwbNKl6lu6")
+        pushdeer = PushDeer(server="https://pushdeer.wudixiaolong.xyz", pushkey="PDU1TbmZsWUmIZXs04CllN5PaBGdKApptsSmh")
         pushdeer.send_text(title, desp=content)
         # resp = requests.post(f"https://sctapi.ftqq.com/{sendkey}.send", data=payload)
         # resp_json = resp.json()
