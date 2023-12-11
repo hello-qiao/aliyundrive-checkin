@@ -72,7 +72,7 @@ class Aliyundrive:
         data = response.json()
 
         if 'code' in data and data['code'] in ['RefreshTokenExpired', 'InvalidParameter.RefreshToken']:
-            return False, '', '', data['message']
+            return False, '', '', '', data['message']
 
         nick_name, user_name = data['nick_name'], data['user_name']
         name = nick_name if nick_name else user_name
